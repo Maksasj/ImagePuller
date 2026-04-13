@@ -7,7 +7,14 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
       return;
     }
 
-    chrome.tabs.sendMessage(tab.id, { action: "get_images" }, (response) => {
+    // Get selected file types
+    const fileTypeCheckboxes = document.querySelectorAll('#filetypes input[type="checkbox"]:checked');
+    const selectedTypes = Array.from(fileTypeCheckboxes).map(cb => cb.value.toLowerCase());
+
+    // Get target folder
+    const folder = document.getElementById('folder').value.trim();
+
+    chrome.tabs.sendMessage(tab.id, { action: "get_images", fileTypes: selectedTypes }, (response) => {
         console.log("Received response from content script:", response);
 
       if (chrome.runtime.lastError) {
@@ -20,9 +27,25 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
         console.log(`Found ${response.urls.length} images. Starting download...`);
         
         response.urls.forEach((url, index) => {
+          // Extract extension from URL
+          let ext = 'jpg';
+          try {
+            const urlObj = new URL(url);
+            const pathname = urlObj.pathname;
+            ext = pathname.split('.').pop().toLowerCase() || 'jpg';
+          } catch (e) {
+            // fallback
+          }
+
+          // Build filename
+          let filename = `image_${index + 1}.${ext}`;
+          if (folder) {
+            filename = `${folder}/${filename}`;
+          }
+
           chrome.downloads.download({
             url: url,
-            filename: `image_${index + 1}.jpg`,
+            filename: filename,
             conflictAction: 'uniquify'
           });
         });

@@ -2,12 +2,29 @@
 <html>
 <head>
   <style>
-    body { width: 150px; padding: 10px; font-family: sans-serif; }
-    button { width: 100%; cursor: pointer; padding: 8px; }
+    body { width: 200px; padding: 10px; font-family: sans-serif; }
+    button { width: 100%; cursor: pointer; padding: 8px; margin-top: 10px; }
+    input, select { width: 100%; margin-bottom: 5px; }
+    .filetypes { max-height: 100px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; }
+    .filetype { display: block; }
   </style>
 </head>
 <body>
-  <button id="downloadBtn">Download All Images</button>
+  <label for="folder">Target Folder (optional):</label>
+  <input type="text" id="folder" placeholder="e.g., images" value="ImagePuller">
+
+  <label for="filetypes">File Types:</label>
+  <div id="filetypes" class="filetypes">
+    <label class="filetype"><input type="checkbox" value="jpg" checked> JPG</label>
+    <label class="filetype"><input type="checkbox" value="jpeg" checked> JPEG</label>
+    <label class="filetype"><input type="checkbox" value="png" checked> PNG</label>
+    <label class="filetype"><input type="checkbox" value="gif" checked> GIF</label>
+    <label class="filetype"><input type="checkbox" value="webp"> WebP</label>
+    <label class="filetype"><input type="checkbox" value="bmp"> BMP</label>
+    <label class="filetype"><input type="checkbox" value="svg"> SVG</label>
+  </div>
+
+  <button id="downloadBtn">Download Images</button>
   <script src="popup.js"></script>
 </body>
 </html>
