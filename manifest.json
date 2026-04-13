@@ -3,6 +3,7 @@
   "name": "Image Puller",
   "version": "1.0",
   "permissions": ["activeTab", "downloads", "scripting"],
+  "host_permissions": ["http://localhost:41595/"],
   "action": {
     "default_popup": "popup.html"
   },
