@@ -108,7 +108,7 @@ document.getElementById('eagleBtn').addEventListener('click', async () => {
         return {
           url: url,
           name: `${tab.title} - ${filename}`,
-          website: tab.url,
+          website: url,
           tags: ["ImagePuller"]
         };
       });
